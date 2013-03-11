@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+	
+	<style type="text/css" media="screen">		
+		.completed{
+			text-decoration: line-through;
+			color: red;
+		}
+	</style>
+</head>
+<body>
+
+	<div class="wrap" >
+		<p class="error_field"></p>
+		<input type="text" name="task_to_add" value="" id="task_to_add">
+		<button id="add_task">Add Task</button>
+
+		<ul class="tasks">
+			<li class="completed">Get Milk</li>
+			<li>Do Laundry</li>
+			<li>Finish Freelance work</li>						
+			<li>Pick up dry cleaning</li>	
+					
+		</ul>
+
+	</div>
+	
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script>!window.jQuery && document.write(unescape('%3Cscript src="jquery-1.9.1.js"%3E%3C/script%3E'))</script>
+	<script type="text/javascript" charset="utf-8">
+		
+		var add_button = $("#add_task");
+		
+		var addTaskToPage = function(){
+		
+			var add_task_input = $("#task_to_add");
+			
+			if(add_task_input.val() != ""){
+				$(".error_field").html("");
+				var new_list_element = $("<li>").html(add_task_input.val());;
+
+				new_list_element.click(taskClick);
+				new_list_element.appendTo(".tasks");
+			
+				add_task_input.val("");
+			}else{
+				$(".error_field").html("You need to enter some text");
+				
+			}
+		}
+		
+		$("#task_to_add").focus(function(){
+			$(".error_field").html("");
+			
+		});
+		
+		$("#add_task").click(function(e){
+			addTaskToPage();
+		});  
+		
+		$("#task_to_add").keyup(function(e){
+			if(e.keyCode === 13){addTaskToPage();}
+		});
+		
+		var taskClick = $(".tasks li").click(function(){
+			if($(this).hasClass("completed")){
+				$(this).removeClass("completed");
+			}else{
+				$(this).addClass("completed");
+			}
+		});
+		
+		var addTaskClicks = function(){
+			var tasks = document.querySelectorAll(".tasks li");
+			for (var i=0; i < tasks.length; i++) {
+				tasks[i].addEventListener("click", taskClick, false);
+			};
+		}
+		
+		//Run to the function, otherwise the tasks don't click
+		addTaskClicks();
+	</script>
+</body>
+</html>
